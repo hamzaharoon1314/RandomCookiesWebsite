@@ -3,6 +3,10 @@ import keyboard
 import requests
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.edge.service import Service as EdgeService
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 import warnings
 import os
 import sys
@@ -44,16 +48,16 @@ def main():
 
     try:
         # Try using Chrome
-        driver = webdriver.Chrome()
+        driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()))
         driver.maximize_window()
     except WebDriverException:
         # If Chrome is not available, use Edge as an alternative
-        driver = webdriver.Edge()
+        driver = webdriver.Chrome()
         driver.maximize_window()
 
     # Download cookies from the URL
     cookies = download_cookies('https://cookies.hamo.dev/freepik')
-    driver.get('https://freepik.com/')
+    driver.get('https://www.freepik.com/')
     import_cookies(driver, cookies)
     driver.refresh()
 
